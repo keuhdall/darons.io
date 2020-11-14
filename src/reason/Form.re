@@ -1,10 +1,7 @@
 open MaterialUi;
 
-
-type answer = Yes | No;
 type state = {
-  questionIndex: int,
-  questionAnswer: string
+  questionIndex: int
 };
 
 let questions = [|
@@ -19,25 +16,43 @@ let mkRadioLabel = str => <Typography variant=`H5>str</Typography>;
 let make = () => {
 
   let typoStyle = ReactDOMRe.Style.make(~textAlign="center", ());
+  let buttonContainerStyle = ReactDOMRe.Style.make(
+      ~display="flex",
+      ~flexDirection="column",
+      ~alignItems="center",
+      ~marginTop="200px",
+      ~position="absolute",
+      ()
+    );
+    let formStyle = ReactDOMRe.Style.make(
+      ~display="flex",
+      ~flexDirection="column",
+      ~alignItems="center",
+      ()
+    );
+    let buttonGroupStyle = ReactDOMRe.Style.make(~minWidth="400px", ());
+    let questionButtonStyle = ReactDOMRe.Style.make(~width="150%", ~height="150%", ());
+    let returnButtonStyle = ReactDOMRe.Style.make(~marginTop="10px", ~maxWidth="600px", ());
 
   let (state, setState) = React.useState(() => {
-    questionIndex: 0,
-    questionAnswer: "Yes"
+    questionIndex: 0
   });
 
-  <FormControl>
+  let nextQuestion = () => setState(s => s.questionIndex == Array.length(questions)-1 ? s : {...s, questionIndex: s.questionIndex+1});
+  let prevQuestion = () => setState(s => s.questionIndex == 0 ? s : {...s, questionIndex: s.questionIndex-1});
+
+  <FormControl style=formStyle>
     <Typography variant=`H2 align=`Justify style=typoStyle>
       questions[state.questionIndex]
     </Typography>
-    <RadioGroup name="answer" row=true value=Any(state.questionAnswer) onChange=(e => {
-        let value = e->ReactEvent.Form.target##value
-        setState(s => {...s, questionAnswer: value})
-      })>
-      <FormControlLabel value=Any("Yes") control={<Radio />} label=mkRadioLabel("Oui") />
-      <FormControlLabel value=Any("No") control={<Radio />} label=mkRadioLabel("Non") />
-    </RadioGroup>
-    <Button variant=`Contained onClick=(_ => setState(s => {...s, questionIndex: s.questionIndex+1}))>
-      {(state.questionIndex < Array.length(questions) -1) ? "Question suivante" : "Finir le test !"}
-    </Button>
+    <div style=buttonContainerStyle>
+      <ButtonGroup variant=`Outlined size=`Large style=buttonGroupStyle>
+        <Button onClick=(_ => nextQuestion()) color=`Primary style=questionButtonStyle>"Oui"</Button>
+        <Button onClick=(_ => nextQuestion()) color=`Primary style=questionButtonStyle>"Non"</Button>
+      </ButtonGroup>
+      <Button onClick=(_ => prevQuestion()) variant=`Outlined color=`Primary style=returnButtonStyle>
+        {j|Question précédente|j}
+      </Button>
+    </div>
   </FormControl>
 };
