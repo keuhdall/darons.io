@@ -1,16 +1,14 @@
-open MaterialUi;
+
+type answer = Yes | No;
 
 type state = {
-  questionIndex: int
+  questionIndex: int,
+  answers: list(float)
 };
 
-let questions = [|
-  {j|Est-ce que tu réalises une liste de courses avant d’aller au supermarché ?|j},
-  {j|Est-ce que tes musiques préférées passent sur Nostalgie ?|j},
-  {j|Est-ce que tu vas au marché ?|j}
-|];
+let questions = Array.of_list(Questions.all);
 
-let mkRadioLabel = str => <Typography variant=`H5>str</Typography>;
+let mkRadioLabel = str => <MaterialUi.Typography variant=`H5>str</MaterialUi.Typography>;
 
 [@react.component]
 let make = () => {
@@ -24,35 +22,50 @@ let make = () => {
       ~position="absolute",
       ()
     );
-    let formStyle = ReactDOMRe.Style.make(
+  let formStyle = ReactDOMRe.Style.make(
       ~display="flex",
       ~flexDirection="column",
       ~alignItems="center",
       ()
-    );
-    let buttonGroupStyle = ReactDOMRe.Style.make(~minWidth="400px", ());
-    let questionButtonStyle = ReactDOMRe.Style.make(~width="150%", ~height="150%", ());
-    let returnButtonStyle = ReactDOMRe.Style.make(~marginTop="10px", ~maxWidth="600px", ());
+  );
+  let buttonGroupStyle = ReactDOMRe.Style.make(~minWidth="400px", ());
+  let questionButtonStyle = ReactDOMRe.Style.make(~width="150%", ~height="150%", ());
+  let returnButtonStyle = ReactDOMRe.Style.make(~marginTop="10px", ~maxWidth="600px", ());
 
   let (state, setState) = React.useState(() => {
-    questionIndex: 0
+    questionIndex: 0,
+    answers: []
   });
 
-  let nextQuestion = () => setState(s => s.questionIndex == Array.length(questions)-1 ? s : {...s, questionIndex: s.questionIndex+1});
-  let prevQuestion = () => setState(s => s.questionIndex == 0 ? s : {...s, questionIndex: s.questionIndex-1});
+  let sum = answers => List.fold_left(((a,b) => a+.b), 0.0, answers);
 
-  <FormControl style=formStyle>
-    <Typography variant=`H2 align=`Justify style=typoStyle>
-      questions[state.questionIndex]
-    </Typography>
+  let nextQuestion = answer => {
+    let questionScore = answer == Yes ? questions[state.questionIndex].coef : 0.0;
+    setState(s => s.questionIndex == Array.length(questions)-1 ? s : {
+        questionIndex: s.questionIndex+1,
+        answers: [questionScore, ...s.answers]
+    })
+  };
+  
+  let prevQuestion = () => {
+    setState(s => s.questionIndex == 0 ? s : {
+      questionIndex: s.questionIndex-1,
+      answers: List.tl(s.answers)
+    })
+  };
+
+  <MaterialUi.FormControl style=formStyle>
+    <MaterialUi.Typography variant=`H2 align=`Justify style=typoStyle>
+      questions[state.questionIndex].content
+    </MaterialUi.Typography>
     <div style=buttonContainerStyle>
-      <ButtonGroup variant=`Outlined size=`Large style=buttonGroupStyle>
-        <Button onClick=(_ => nextQuestion()) color=`Primary style=questionButtonStyle>"Oui"</Button>
-        <Button onClick=(_ => nextQuestion()) color=`Primary style=questionButtonStyle>"Non"</Button>
-      </ButtonGroup>
-      <Button onClick=(_ => prevQuestion()) variant=`Outlined color=`Primary style=returnButtonStyle>
+      <MaterialUi.ButtonGroup variant=`Outlined size=`Large style=buttonGroupStyle>
+        <MaterialUi.Button onClick=(_ => nextQuestion(Yes)) color=`Primary style=questionButtonStyle>"Oui"</MaterialUi.Button>
+        <MaterialUi.Button onClick=(_ => nextQuestion(No)) color=`Primary style=questionButtonStyle>"Non"</MaterialUi.Button>
+      </MaterialUi.ButtonGroup>
+      <MaterialUi.Button onClick=(_ => prevQuestion()) variant=`Outlined color=`Primary style=returnButtonStyle>
         {j|Question précédente|j}
-      </Button>
+      </MaterialUi.Button>
     </div>
-  </FormControl>
+  </MaterialUi.FormControl>
 };
