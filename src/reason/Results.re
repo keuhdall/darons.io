@@ -1,12 +1,16 @@
 open MaterialUi;
 
 [@react.component]
-
 let make = (~score) => {
+  
+  let rank = Ranks.getRank(score);
+
   <Container>
-    <Typography variant=`H2 align=`Center>"Bravo, tu as fini le test !"</Typography>
+    <Typography variant=`H2 align=`Center>
+      {Ranks.getRankName(rank)}
+    </Typography>
     <Typography variant=`H5 align=`Center>
-      {"Ton score est de " ++ Js.Float.toString(score) ++ {(score > 1.0) ? " points" : " point"}}
+      {Ranks.getDescription(rank)}
     </Typography>
   </Container>
 };
