@@ -1,4 +1,6 @@
 
+type answer = Yes | No;
+
 type question = {
   content: string,
   coef: float

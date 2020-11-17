@@ -1,17 +1,15 @@
-
-type answer = Yes | No;
+open Questions;
+open MaterialUi;
 
 type state = {
-  questionIndex: int,
-  answers: list(float)
+  questionIndex: int
 };
 
 let questions = Array.of_list(Questions.all);
-
-let mkRadioLabel = str => <MaterialUi.Typography variant=`H5>str</MaterialUi.Typography>;
+let mkRadioLabel = str => <Typography variant=`H5>str</Typography>;
 
 [@react.component]
-let make = () => {
+let make = (~onChange) => {
 
   let typoStyle = ReactDOMRe.Style.make(~textAlign="center", ());
   let buttonContainerStyle = ReactDOMRe.Style.make(
@@ -33,39 +31,32 @@ let make = () => {
   let returnButtonStyle = ReactDOMRe.Style.make(~marginTop="10px", ~maxWidth="600px", ());
 
   let (state, setState) = React.useState(() => {
-    questionIndex: 0,
-    answers: []
+    questionIndex: 0
   });
-
-  let sum = answers => List.fold_left(((a,b) => a+.b), 0.0, answers);
 
   let nextQuestion = answer => {
     let questionScore = answer == Yes ? questions[state.questionIndex].coef : 0.0;
-    setState(s => s.questionIndex == Array.length(questions)-1 ? s : {
-        questionIndex: s.questionIndex+1,
-        answers: [questionScore, ...s.answers]
-    })
+    setState(s => s.questionIndex == Array.length(questions)-1 ? s : { questionIndex: s.questionIndex+1 });
+    onChange(~answer=Some(questionScore));
   };
   
   let prevQuestion = () => {
-    setState(s => s.questionIndex == 0 ? s : {
-      questionIndex: s.questionIndex-1,
-      answers: List.tl(s.answers)
-    })
+    setState(s => s.questionIndex == 0 ? s : { questionIndex: s.questionIndex-1 });
+    onChange(~answer=None);
   };
 
-  <MaterialUi.FormControl style=formStyle>
-    <MaterialUi.Typography variant=`H2 align=`Justify style=typoStyle>
+  <FormControl style=formStyle>
+    <Typography variant=`H2 align=`Justify style=typoStyle>
       questions[state.questionIndex].content
-    </MaterialUi.Typography>
+    </Typography>
     <div style=buttonContainerStyle>
-      <MaterialUi.ButtonGroup variant=`Outlined size=`Large style=buttonGroupStyle>
-        <MaterialUi.Button onClick=(_ => nextQuestion(Yes)) color=`Primary style=questionButtonStyle>"Oui"</MaterialUi.Button>
-        <MaterialUi.Button onClick=(_ => nextQuestion(No)) color=`Primary style=questionButtonStyle>"Non"</MaterialUi.Button>
-      </MaterialUi.ButtonGroup>
-      <MaterialUi.Button onClick=(_ => prevQuestion()) variant=`Outlined color=`Primary style=returnButtonStyle>
+      <ButtonGroup variant=`Outlined size=`Large style=buttonGroupStyle>
+        <Button onClick=(_ => nextQuestion(Yes)) color=`Primary style=questionButtonStyle>"Oui"</Button>
+        <Button onClick=(_ => nextQuestion(No)) color=`Primary style=questionButtonStyle>"Non"</Button>
+      </ButtonGroup>
+      <Button onClick=(_ => prevQuestion()) variant=`Outlined color=`Primary style=returnButtonStyle>
         {j|Question précédente|j}
-      </MaterialUi.Button>
+      </Button>
     </div>
-  </MaterialUi.FormControl>
+  </FormControl>
 };
