@@ -1,7 +1,4 @@
-open Utils;
 open MaterialUi;
-
-requireCSS("src/styles/home.css");
 
 [@react.component]
 
@@ -11,7 +8,6 @@ let make = () => {
   let textStyle = ReactDOMRe.Style.make(~fontStyle="italic", ());
   let explainationsStyle = ReactDOMRe.Style.make(~marginTop="30px", ~whiteSpace="pre-wrap", ());
   let buttonStyle = ReactDOMRe.Style.make(~marginTop="50px", ());
-
 
   <Container maxWidth=Container.MaxWidth.md style=mainContainerStyle>
     <Typography variant=`H4>
