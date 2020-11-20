@@ -23,6 +23,6 @@ let make = () => {
   let containerStyle = ReactDOMRe.Style.make(~marginTop = "110px", ());
 
   <MaterialUi.Container style=containerStyle>
-    {(List.length(state.answers) >= List.length(Questions.all)) ? <Results score=sum(state.answers) /> : <Form onChange />}
+    {(List.length(state.answers) >= Questions.length) ? <Results score=sum(state.answers) /> : <Form onChange />}
   </MaterialUi.Container>
 };

@@ -101,3 +101,5 @@ let all = [
   {content: {j|Est-ce que tu es déprimé à l'approche de ton anniversaire ?|j},                                        coef: 1.0},
   {content: {j|Est-ce que tu te mets de profil devant le mirroir pour constater les dégats ?|j},                      coef: 1.0}
 ];
+
+let length = List.length(all);

@@ -7,7 +7,7 @@ type t =
   | DegenerateMillenial;
 
 let getRank = score => {
-  let percentage = score /. Js.Int.toFloat(List.length(Questions.all)) *. 100.0;
+  let percentage = score /. Js.Int.toFloat(Questions.length) *. 100.0;
   Js.log("percentage is : " ++ Js.Float.toString(percentage))
   switch percentage {
   | x when x >= 90.0 => UltimateBoomer

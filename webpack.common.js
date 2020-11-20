@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './lib/es6/src/reason/App.bs.js',
+  entry: './lib/es6/src/reason/Index.bs.js',
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html"
