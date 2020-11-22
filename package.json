@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "webpack --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
+    "dev": "bsb -make-world && webpack --config webpack.dev.js",
+    "build": "bsb -make-world && webpack --config webpack.prod.js",
     "start": "bsb -make-world -w -ws _ ",
     "clean": "bsb -clean-world",
     "serve": "webpack-dev-server --config webpack.dev.js --open",
