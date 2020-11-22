@@ -1,8 +1,8 @@
-darons.io {
-  redir https://localhost{uri}
+www.darons.io {
+  redir https://darons.io{uri}
 }
 
-localhost {
+darons.io {
   root * /www/data
   file_server
   try_files {path} /index.html
