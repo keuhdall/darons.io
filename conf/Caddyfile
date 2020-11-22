@@ -1,0 +1,9 @@
+darons.io {
+  redir https://localhost{uri}
+}
+
+localhost {
+  root * /www/data
+  file_server
+  try_files {path} /index.html
+}
