@@ -11,9 +11,8 @@ let make = () => {
   }
 
   switch (url.path) {
-  | []        => mkPage(<Home />)
   | ["quiz"]  => mkPage(<Quiz />)
-  | _         => <NotFound />
+  | _         => mkPage(<Home />)
   };
 
 };
