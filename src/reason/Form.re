@@ -11,7 +11,7 @@ let mkRadioLabel = str => <Typography variant=`H5>str</Typography>;
 [@react.component]
 let make = (~onChange) => {
 
-  let typoStyle = ReactDOMRe.Style.make(~textAlign="center", ());
+  let typoStyle = ReactDOMRe.Style.make(~marginTop="150px", ~textAlign="center", ());
   let buttonContainerStyle = ReactDOMRe.Style.make(
       ~display="flex",
       ~flexDirection="column",
@@ -26,9 +26,9 @@ let make = (~onChange) => {
       ~alignItems="center",
       ()
   );
-  let buttonGroupStyle = ReactDOMRe.Style.make(~minWidth="400px", ());
+  let buttonGroupStyle = ReactDOMRe.Style.make(~marginTop="180px", ~minWidth="400px", ());
   let questionButtonStyle = ReactDOMRe.Style.make(~width="150%", ~height="150%", ());
-  let returnButtonStyle = ReactDOMRe.Style.make(~marginTop="10px", ~maxWidth="600px", ());
+  let returnButtonStyle = ReactDOMRe.Style.make(~marginTop="20px", ~maxWidth="600px", ());
 
   let (state, setState) = React.useState(() => {
     questionIndex: 0
