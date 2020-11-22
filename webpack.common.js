@@ -5,6 +5,7 @@ module.exports = {
   entry: './lib/es6/src/reason/Index.bs.js',
   plugins: [
     new HtmlWebpackPlugin({
+      favicon: "./src/assets/favicons/favicon.ico",
       template: "./src/index.html"
     }),
   ],
