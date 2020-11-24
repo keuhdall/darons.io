@@ -29,6 +29,7 @@ let make = (~onChange) => {
   let buttonGroupStyle = ReactDOMRe.Style.make(~marginTop="180px", ~minWidth="400px", ());
   let questionButtonStyle = ReactDOMRe.Style.make(~width="150%", ~height="150%", ());
   let returnButtonStyle = ReactDOMRe.Style.make(~marginTop="20px", ~maxWidth="600px", ());
+  let progressBarStyle = ReactDOMRe.Style.make(~marginTop="520px", ~position="absolute", ~width="80vw", ());
 
   let (state, setState) = React.useState(() => {
     questionIndex: 0
@@ -45,6 +46,8 @@ let make = (~onChange) => {
     onChange(~answer=None);
   };
 
+  let progress = Js.Int.toFloat(state.questionIndex) /. Js.Int.toFloat(Questions.length) *. 100.0;
+
   <FormControl style=formStyle>
     <Typography variant=`H2 align=`Justify style=typoStyle>
       questions[state.questionIndex].content
@@ -58,5 +61,6 @@ let make = (~onChange) => {
         {j|Question précédente|j}
       </Button>
     </div>
+    <LinearProgress variant=`Determinate value=Number.float(progress) style=progressBarStyle />
   </FormControl>
 };
