@@ -40,7 +40,7 @@ let make = (~onChange) => {
     setState(s => s.questionIndex == Array.length(questions)-1 ? s : { questionIndex: s.questionIndex+1 });
     onChange(~answer=Some(questionScore));
   };
-  
+
   let prevQuestion = () => {
     setState(s => s.questionIndex == 0 ? s : { questionIndex: s.questionIndex-1 });
     onChange(~answer=None);
