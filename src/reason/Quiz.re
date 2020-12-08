@@ -14,8 +14,9 @@ let make = () => {
 
   let onChange = (~answer: option(float)) => {
     let newAnswers = switch answer {
-    | Some(value) => [value, ...state.answers]
-    | None        => List.tl(state.answers)
+    | Some(value)                   => [value, ...state.answers]
+    | None when state.answers != [] => List.tl(state.answers)
+    | _                             => []
     };
     setState(_ => { answers: newAnswers });
   };

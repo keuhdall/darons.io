@@ -43,7 +43,7 @@ let make = (~onChange) => {
 
   let prevQuestion = () => {
     setState(s => s.questionIndex == 0 ? s : { questionIndex: s.questionIndex-1 });
-    onChange(~answer=Some(0.0));
+    onChange(~answer=None);
   };
 
   let progress = Js.Int.toFloat(state.questionIndex) /. Js.Int.toFloat(Questions.length) *. 100.0;
